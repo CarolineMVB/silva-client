@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks/redux-hooks'
 import { signupUser } from '../../actions/authActions'
 import { button } from '../../config'
@@ -18,7 +18,6 @@ type FormInputs = {
 
 export const SignupForm = () => {
   const navigate = useNavigate()
-  const location = useLocation()
   const [signupAttempt, setSignupAttempt] = useState<boolean>(false)
   const dispatch = useAppDispatch()
 
@@ -59,12 +58,12 @@ export const SignupForm = () => {
     <form onSubmit={handleSubmit((data) => postForm(data))}>
       <div>
         <label>Firstname</label>
-        <input {...register('firstname')} value="jean" data-testid="firstname" />
+        <input {...register('firstname')} data-testid="firstname" />
         {errors.firstname && <p>Please enter your firstname.</p>}
       </div>
       <div>
         <label>Lastname</label>
-        <input {...register('lastname')} value="jean" data-testid="lastname" />
+        <input {...register('lastname')} data-testid="lastname" />
         {errors.lastname && <p>Please enter your lastname.</p>}
       </div>
       <div>
@@ -74,7 +73,7 @@ export const SignupForm = () => {
       </div>
       <div>
         <label>Password</label>
-        <input type='password' {...register('password')} value="password" data-testid="password" />
+        <input type='password' {...register('password')} data-testid="password" />
         {errors.password && <p>Please enter your password.</p>}
       </div>
       {errors.register ?
