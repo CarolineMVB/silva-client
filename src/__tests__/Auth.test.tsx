@@ -8,7 +8,6 @@ import '@testing-library/jest-dom/extend-expect'
 import userEvent from "@testing-library/user-event"
 
 
-const APP_NAME = "Silva Client"
 
 export const handlers = [
     rest.get("/api/auth", (req, res, ctx) => {
@@ -28,7 +27,7 @@ test("Admin - Testing start screen and login button", async () => {
     renderWithProviders(<App />)
 
     // We wait until the text "Silva Client" is in the document. If it isn't, it's an error.
-    expect(screen.getByText(APP_NAME)).toBeInTheDocument()
+    expect(screen.getByText(/You are not logged in/i)).toBeInTheDocument()
     expect(screen.queryByText(/Welcome/i)).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole("link", { name: "Admin Page" }))
@@ -42,6 +41,9 @@ test("Admin - Testing start screen and login button", async () => {
 
     waitFor(() => {
         expect(screen.getByText(/Welcome test@localhost.com/i)).toBeInTheDocument()
+    })
+
+    waitFor(() => {
         expect(setItem).toHaveBeenCalled()
     })
 })
@@ -59,9 +61,10 @@ test("Admin - Logout", async () => {
 
     waitFor(() => {
         expect(setItem).toHaveBeenCalled()
+    })
 
+    waitFor(() => {
         act(() => fireEvent.click(screen.getByTestId(/logout/i)))
         expect(setItem).not.toHaveBeenCalled()
-
     })
 })
